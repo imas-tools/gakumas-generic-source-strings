@@ -10,7 +10,7 @@ def check_duplicate(strings: Dict[str, List[str]]):
     for string in strings:
         if len(strings[string]) > 1:
             found = True
-            print(f"Duplicate string: {string}")
+            print(f"Duplicate string: {repr(string)}")
             for file_name in strings[string]:
                 print(f"\t{file_name}")
     if found:
