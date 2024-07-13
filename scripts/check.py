@@ -1,6 +1,9 @@
 from typing import Dict, List
 from utils import append_strings
 
+# Check for duplicate strings in the data and new_string directories
+# If any duplicates are found, an exception is raised
+
 data_dir = "./data"
 new_string_dir = "./working/new"
 

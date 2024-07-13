@@ -1,6 +1,10 @@
 import os, json
 from typing import Dict, List
 
+# normalize each json file in the directory
+# if the directory is in the order_exclude_dir, then do not sort the data
+# otherwise, sort the data in ascending order
+
 def normalize_strings(dir: str, order_exclude_dir: List[str]):
     for i in range(len(order_exclude_dir)):
         order_exclude_dir[i] = os.path.normpath(order_exclude_dir[i])
