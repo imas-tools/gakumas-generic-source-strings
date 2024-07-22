@@ -1,7 +1,7 @@
 import os, json, warnings
 from typing import Dict, List, cast, Tuple, Generator
 
-SPLIT_STRING_PREFIX = "[split]"
+SPLIT_STRING_PREFIX = "[__split__]"
 
 # yield (string, is_split)
 def yield_string(file_path: str):
@@ -11,31 +11,9 @@ def yield_string(file_path: str):
         except json.JSONDecodeError:
             raise ValueError("Invalid JSON file")
 
-        if isinstance(content, dict):
-            for k, v in content.items():
-                if k == v:
-                    if v.startswith(SPLIT_STRING_PREFIX):
-                        # warnings.warn(
-                        #     "Key and value are the same and start with [split], this might be a mistake"
-                        # )
-                        raise ValueError(
-                            "Key and value are the same and start with [split], this might be a mistake"
-                        )
-                    yield (cast(str, v), False)
-                else:
-                    if not isinstance(v, str) or not v.startswith(SPLIT_STRING_PREFIX):
-                        raise ValueError(
-                            f"Invalid split string: {v}, should start with {SPLIT_STRING_PREFIX}"
-                        )
-                    yield (cast(str, v), True)
-        elif isinstance(content, list):
-            for item in content:
-                if isinstance(item, str):
-                    yield (cast(str, item), (not item.startswith(SPLIT_STRING_PREFIX)))
-                else:
-                    raise ValueError("Invalid list item, should be a string")
-        else:
-            raise TypeError("Unsupported JSON content type")
+        for k in content:
+            yield (cast(str, k), (cast(str, k).startswith(SPLIT_STRING_PREFIX)))
+
 
 def append_strings(strings: Dict[str, List[str]], dir_path: str):
     for root_path, _, files in os.walk(dir_path):
