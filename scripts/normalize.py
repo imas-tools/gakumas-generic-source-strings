@@ -22,7 +22,7 @@ def normalize_strings(dir: str, order_exclude_dir: List[str]):
                 if os.path.normpath(root_dir) in order_exclude_dir:
                     json.dump(list(data), f, ensure_ascii=False, indent=4)
                 else:
-                    json.dump(sorted(data), f, ensure_ascii=False, indent=4)
+                    json.dump(sorted(list(set(data))), f, ensure_ascii=False, indent=4)
 
 
 def main():
